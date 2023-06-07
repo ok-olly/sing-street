@@ -1,22 +1,11 @@
 // locations info => https://www.imdb.com/title/tt3544112/locations/
-
-const locations = {
-  syngeStreetCBS: [53.33359751220071, -6.267859429588321],
-  stCatherinesPark: [53.342461028712805, -6.281377866857469],
-  dunLaoghaireHabourEast: [53.298498679178834, -6.124278344257477],
-  coliemoreHarbour: [53.27502705763972, -6.093855758349382],
-  dalkeyIsland: [53.27185869576267, -6.0843660542747084],
-  sanctaMariaPrimarySchool: [53.3333566632413, -6.267131365560957],
-  fuscosCafe: [53.34106514813436, -6.278711411537048],
-  frederickStreetNorth: [53.35538097656439, -6.264464549613137],
-  SyngeStreet40: [53.33323980850529, -6.266782271270282],
-  GreenleaRoad143: [53.30719453579432, -6.299668297150399],
-};
+import { locations } from './locations.js';
 
 var map = L.map('map').setView(
   [locations.syngeStreetCBS[0], locations.syngeStreetCBS[1]],
   12
 );
+
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution:
