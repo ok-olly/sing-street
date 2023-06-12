@@ -15,11 +15,13 @@
     />
 
     <script
+      defer
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
 
+    <script type="module" defer src="script.js"></script>
     <title>싱스트리트 성지순례</title>
   </head>
   <body>
@@ -28,7 +30,7 @@
     영화 촬영지를 목록으로 보기 기능도 추가
     다녀온 곳은 또 따로 표시하기 -->
     <h1>Sing Street Filming Locations</h1>
+    <div class="list"></div>
     <div id="map"></div>
   </body>
-  <script type="module" defer src="script.js"></script>
 </html>
