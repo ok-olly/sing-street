@@ -1,6 +1,6 @@
 // locations info => https://www.imdb.com/title/tt3544112/locations/
 import { locations } from './locations.js';
-const h1 = document.querySelector('.heading');
+const placelists = document.querySelector('.placelists');
 
 class App {
   #map;
@@ -53,7 +53,7 @@ class App {
       <button class="placelist__button">visited</button>
     </li>`;
 
-    h1.insertAdjacentHTML('afterbegin', html);
+    placelists.insertAdjacentHTML('beforeend', html);
   }
 }
 

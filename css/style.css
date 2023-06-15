@@ -36,9 +36,10 @@ body {
 }
 
 .sidebar {
+  flex: 0 1 30%;
   margin-right: 3rem;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   justify-content: space-between;
 }
 
