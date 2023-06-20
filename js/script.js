@@ -4,16 +4,23 @@ const placelists = document.querySelector('.placelists');
 
 class App {
   #map;
+  #popups;
+  #markers;
   #place;
 
   constructor() {
+    this.#popups = [];
+    this.#markers = [];
+
     this._loadMap();
     Object.values(locations).map(location => {
+      this._createPopup22(location);
       this._createMarkers(location);
+      this._renderPopup();
       this._renderList(location);
     });
 
-    this._createPopup();
+    // this._createPopup();
 
     placelists.addEventListener('click', this._moveToMarker.bind(this));
   }
@@ -33,8 +40,21 @@ class App {
     }).addTo(this.#map);
   }
 
+  _createPopup22(location) {
+    this.#popups.push({
+      id: location.id,
+      popup: L.popup().setContent(location.name),
+    });
+  }
+
   _createMarkers(location) {
-    L.marker([location.latitude, location.longitude]).addTo(this.#map);
+    this.#markers.push({
+      id: location.id,
+      marker: L.marker([location.latitude, location.longitude]).addTo(
+        this.#map
+      ),
+    });
+
     // .bindPopup(
     //   L.popup({
     //     maxWidth: 250,
@@ -45,6 +65,23 @@ class App {
     // .openPopup();
 
     // this._createPopup();
+  }
+
+  _renderPopup() {
+    this.#markers.map(m => {
+      m.marker
+        .bindPopup(this.#popups.find(p => p.id === m.id).popup)
+        .openPopup();
+    });
+
+    // this.#markers.bindPopup(this.#popups).openPopup();
+  }
+
+  _renderPopup22(place) {
+    this.#markers
+      .find(m => m.id === place.id)
+      .marker.bindPopup(this.#popups.find(p => p.id === place.id).popup)
+      .openPopup();
   }
 
   _renderList(location) {
@@ -70,6 +107,12 @@ class App {
         .setLatLng([this.#place.latitude, this.#place.longitude])
         .setContent(this.#place.name)
     );
+
+    // this.#map.openPopup(
+    //   L.popup([this.#place.latitude, this.#place.longitude], {
+    //     offset: L.point(0, -30),
+    //   }).setContent(this.#place.name)
+    // );
   }
 
   _moveToMarker(e) {
@@ -83,7 +126,8 @@ class App {
 
     this.#place = locations[location];
 
-    this._createPopup();
+    // this._createPopup22(this.#place);
+    this._renderPopup22(this.#place);
 
     this.#map.setView(
       [locations[location].latitude, locations[location].longitude],
