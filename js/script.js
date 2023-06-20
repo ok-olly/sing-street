@@ -4,6 +4,7 @@ const placelists = document.querySelector('.placelists');
 
 class App {
   #map;
+  #place;
 
   constructor() {
     this._loadMap();
@@ -11,11 +12,17 @@ class App {
       this._createMarkers(location);
       this._renderList(location);
     });
+
+    this._createPopup();
+
+    placelists.addEventListener('click', this._moveToMarker.bind(this));
   }
 
   _loadMap() {
-    this.map = L.map('map').setView(
-      [locations.syngeStreet40.latitude, locations.syngeStreet40.longitude],
+    this.#place = locations.syngeStreet40;
+
+    this.#map = L.map('map').setView(
+      [this.#place.latitude, this.#place.longitude],
       12
     );
 
@@ -23,31 +30,32 @@ class App {
       maxZoom: 19,
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(this.map);
+    }).addTo(this.#map);
   }
 
   _createMarkers(location) {
-    L.marker([location.latitude, location.longitude])
-      .addTo(this.map)
-      .bindPopup(
-        L.popup({
-          maxWidth: 250,
-          minWidth: 100,
-        })
-      )
-      .setPopupContent(location.name)
-      .openPopup();
+    L.marker([location.latitude, location.longitude]).addTo(this.#map);
+    // .bindPopup(
+    //   L.popup({
+    //     maxWidth: 250,
+    //     minWidth: 100,
+    //   })
+    // )
+    // .setPopupContent(location.name)
+    // .openPopup();
+
+    // this._createPopup();
   }
 
   _renderList(location) {
     const html = `
-    <li class="placelist">
+    <li class="placelist" data-id="${location.id}">
       <img
         class="placelist__image"
-        src="https://picsum.photos/200"
+        src="https://picsum.photos/100"
         alt="movie photo"
       />
-      <h2 class="placelist__title">${location.name}</h2>
+      <h2 class="placelist__name">${location.name}</h2>
       <span class="placelist__address">${location.address}</span>
       <p class="placelist__description">${location.description}</p>
       <button class="placelist__button">visited</button>
@@ -55,44 +63,39 @@ class App {
 
     placelists.insertAdjacentHTML('beforeend', html);
   }
+
+  _createPopup() {
+    this.#map.openPopup(
+      L.popup()
+        .setLatLng([this.#place.latitude, this.#place.longitude])
+        .setContent(this.#place.name)
+    );
+  }
+
+  _moveToMarker(e) {
+    const locationEl = e.target.closest('.placelist');
+
+    if (!locationEl) return;
+
+    const location = Object.keys(locations).find(
+      el => el === locationEl.dataset.id
+    );
+
+    this.#place = locations[location];
+
+    this._createPopup();
+
+    this.#map.setView(
+      [locations[location].latitude, locations[location].longitude],
+      13,
+      {
+        animate: true,
+        pan: {
+          duration: 1,
+        },
+      }
+    );
+  }
 }
 
 const app = new App();
-
-// const markers = (latitude, longitude, content) => {
-//   L.marker([latitude, longitude])
-//     .addTo(map)
-//     .bindPopup(
-//       L.popup({
-//         maxWidth: 250,
-//         minWidth: 100,
-//       })
-//     )
-//     .setPopupContent(content)
-//     .openPopup();
-// };
-
-// Object.values(locations).map(location => {
-//   markers(location.latitude, location.longitude, location.name);
-// });
-
-// markers(
-//   locations.syngeStreetCBS.latitude,
-//   locations.syngeStreetCBS.longitude,
-//   'Synge Street CBS'
-// );
-
-// var marker = L.marker([
-//   locations.syngeStreetCBS[0],
-//   locations.syngeStreetCBS[1],
-// ])
-//   .addTo(map)
-//   .bindPopup(
-//     L.popup({
-//       maxWidth: 250,
-//       minWidth: 100,
-//       autoClose: false,
-//     })
-//   )
-//   .setPopupContent('Synge Street CBS')
-//   .openPopup();

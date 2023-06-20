@@ -37,10 +37,15 @@ body {
 
 .sidebar {
   flex: 0 1 30%;
-  margin-right: 3rem;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
+}
+
+.placelists {
+  list-style: none;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .footer {
