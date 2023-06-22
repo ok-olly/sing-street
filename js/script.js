@@ -1,6 +1,7 @@
 // locations info => https://www.imdb.com/title/tt3544112/locations/
 import { locations } from './locations.js';
 const placelists = document.querySelector('.placelists');
+// const placelistButton = document.querySelector('.placelist__button');
 
 class App {
   #map;
@@ -22,6 +23,7 @@ class App {
     });
 
     placelists.addEventListener('click', this._moveToMarker.bind(this));
+    placelists.addEventListener('click', this._toggleVisitedButton.bind(this));
   }
 
   _loadMap() {
@@ -73,26 +75,33 @@ class App {
   _renderList(location) {
     const html = `
     <li class="placelist" data-id="${location.id}">
-      <img
-        class="placelist__image"
+      <div class="placelist__box">
+        <img
+        class="box__image"
         src="https://picsum.photos/100"
         alt="movie photo"
-      />
-      <h2 class="placelist__name">${location.name}</h2>
-      <span class="placelist__address">${location.address}</span>
-      <p class="placelist__description">${location.description}</p>
-      <button class="placelist__button">visited</button>
+        />
+        <h2 class="box__name">${location.name}</h2>
+        <span class="box__address">${location.address}</span>
+        <p class="box__description">${location.description}</p>
+      </div>
+      <button class="placelist__button" value="${location.visited}">${
+      location.visited ? '🙆 visited' : '❌ yet'
+    }</button>
+      
     </li>`;
 
     placelists.insertAdjacentHTML('beforeend', html);
   }
 
   _moveToMarker(e) {
-    const locationEl = e.target.closest('.placelist');
+    const locationEl = e.target.closest('.placelist__box');
 
     if (!locationEl) return;
 
-    const location = locations.find(l => l.id === locationEl.dataset.id);
+    const location = locations.find(
+      l => l.id === locationEl.parentNode.dataset.id
+    );
 
     this.#place = location;
 
@@ -107,6 +116,22 @@ class App {
         duration: 1,
       },
     });
+  }
+
+  _toggleVisitedButton(e) {
+    const buttonEl = e.target.closest('.placelist__button');
+
+    if (!buttonEl) return;
+
+    const location = locations.find(
+      l => l.id === buttonEl.parentNode.dataset.id
+    );
+
+    // buttonEl.value가 string이라서..
+    location.visited = !(buttonEl.value === 'true');
+    buttonEl.value = location.visited;
+
+    buttonEl.innerHTML = location.visited ? '🙆 visited' : '❌ yet';
   }
 }
 

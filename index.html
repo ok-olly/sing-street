@@ -44,15 +44,19 @@
       <h1>Sing Street Filming Locations</h1>
       <ul class="placelists">
         <!-- <li class="placelist">
-          <img
-            class="placelist__image"
-            src="https://picsum.photos/100"
-            alt="movie photo"
-          />
-          <h2 class="placelist__name">장소이름</h2>
-          <span class="placelist__address">주소</span>
-          <p class="placelist__description">설명</p>
-          <button class="placelist__button">visited</button>
+          <div class="placelist__box" data-id="${location.id}">
+            <img
+              class="box__image"
+              src="https://picsum.photos/100"
+              alt="movie photo"
+            />
+            <h2 class="box__name">${location.name}</h2>
+            <span class="box__address">${location.address}</span>
+            <p class="box__description">${location.description}</p>
+          </div>
+          <button class="placelist__button">
+            ${ location.visited ? '🙆 visited' : '❌ unvisited yet' }
+          </button>
         </li> -->
       </ul>
 

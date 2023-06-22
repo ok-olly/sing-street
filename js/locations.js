@@ -6,7 +6,7 @@ export const locations = [
     name: "St. Catherine's Park",
     description: 'Park exteriors',
     address: "St. Catherine's Park, Hanbury Lane, Dublin, Ireland",
-    visited: false,
+    visited: true,
   },
 
   {
@@ -18,7 +18,7 @@ export const locations = [
       'Site of "A Beautiful Sea" video and where Conor returns to look across the sea to Britain after Raphina has left.',
     address:
       'Dún Laoghaire Harbour East, Dún Laoghaire-Rathdown, County Dublin, Ireland',
-    visited: false,
+    visited: true,
   },
 
   {
