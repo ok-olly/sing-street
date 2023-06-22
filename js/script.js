@@ -1,7 +1,8 @@
-// locations info => https://www.imdb.com/title/tt3544112/locations/
+// locations info =>
+// https://www.imdb.com/title/tt3544112/locations/
+// https://almostginger.com/sing-street-filming-locations-dublin/
 import { locations } from './locations.js';
 const placelists = document.querySelector('.placelists');
-// const placelistButton = document.querySelector('.placelist__button');
 
 class App {
   #map;
@@ -78,8 +79,9 @@ class App {
       <div class="placelist__box">
         <img
         class="box__image"
-        src="https://picsum.photos/100"
+        src="${location.image}"
         alt="movie photo"
+        style="width:150px"
         />
         <h2 class="box__name">${location.name}</h2>
         <span class="box__address">${location.address}</span>
