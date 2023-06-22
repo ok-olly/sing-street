@@ -9,25 +9,22 @@ class App {
   #place;
 
   constructor() {
+    this.#place = locations[9]; // default location
     this.#popups = [];
     this.#markers = [];
 
     this._loadMap();
-    Object.values(locations).map(location => {
-      this._createPopup22(location);
+    locations.map(location => {
+      this._createPopups(location);
       this._createMarkers(location);
-      this._renderPopup();
+      this._renderPopups();
       this._renderList(location);
     });
-
-    // this._createPopup();
 
     placelists.addEventListener('click', this._moveToMarker.bind(this));
   }
 
   _loadMap() {
-    this.#place = locations.syngeStreet40;
-
     this.#map = L.map('map').setView(
       [this.#place.latitude, this.#place.longitude],
       12
@@ -40,7 +37,7 @@ class App {
     }).addTo(this.#map);
   }
 
-  _createPopup22(location) {
+  _createPopups(location) {
     this.#popups.push({
       id: location.id,
       popup: L.popup().setContent(location.name),
@@ -63,25 +60,14 @@ class App {
     // )
     // .setPopupContent(location.name)
     // .openPopup();
-
-    // this._createPopup();
   }
 
-  _renderPopup() {
+  _renderPopups() {
     this.#markers.map(m => {
       m.marker
         .bindPopup(this.#popups.find(p => p.id === m.id).popup)
         .openPopup();
     });
-
-    // this.#markers.bindPopup(this.#popups).openPopup();
-  }
-
-  _renderPopup22(place) {
-    this.#markers
-      .find(m => m.id === place.id)
-      .marker.bindPopup(this.#popups.find(p => p.id === place.id).popup)
-      .openPopup();
   }
 
   _renderList(location) {
@@ -101,44 +87,26 @@ class App {
     placelists.insertAdjacentHTML('beforeend', html);
   }
 
-  _createPopup() {
-    this.#map.openPopup(
-      L.popup()
-        .setLatLng([this.#place.latitude, this.#place.longitude])
-        .setContent(this.#place.name)
-    );
-
-    // this.#map.openPopup(
-    //   L.popup([this.#place.latitude, this.#place.longitude], {
-    //     offset: L.point(0, -30),
-    //   }).setContent(this.#place.name)
-    // );
-  }
-
   _moveToMarker(e) {
     const locationEl = e.target.closest('.placelist');
 
     if (!locationEl) return;
 
-    const location = Object.keys(locations).find(
-      el => el === locationEl.dataset.id
-    );
+    const location = locations.find(l => l.id === locationEl.dataset.id);
 
-    this.#place = locations[location];
+    this.#place = location;
 
-    // this._createPopup22(this.#place);
-    this._renderPopup22(this.#place);
+    this.#markers
+      .find(m => m.id === this.#place.id)
+      .marker.bindPopup(this.#popups.find(p => p.id === this.#place.id).popup)
+      .openPopup();
 
-    this.#map.setView(
-      [locations[location].latitude, locations[location].longitude],
-      13,
-      {
-        animate: true,
-        pan: {
-          duration: 1,
-        },
-      }
-    );
+    this.#map.setView([location.latitude, location.longitude], 13, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
   }
 }
 
