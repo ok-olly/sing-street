@@ -1,6 +1,7 @@
 // locations info =>
 // https://www.imdb.com/title/tt3544112/locations/
 // https://almostginger.com/sing-street-filming-locations-dublin/
+
 import { locations } from './locations.js';
 const placelists = document.querySelector('.placelists');
 
@@ -140,15 +141,26 @@ class App {
 
     if (!buttonEl) return;
 
-    const location = this.#localStoragelocations.find(
+    const locationIndex = this.#localStoragelocations.findIndex(
       l => l.id === buttonEl.parentNode.dataset.id
     );
 
     // buttonEl.value가 string이라서..
-    location.visited = !(buttonEl.value === 'true');
-    buttonEl.value = location.visited;
+    this.#localStoragelocations[locationIndex].visited = !(
+      buttonEl.value === 'true'
+    );
 
-    buttonEl.innerHTML = location.visited ? '🙆 visited' : '❌ yet';
+    // 로컬 스토리지에 visited 바뀐 this.#localStoragelocations 통째로 다시 추가시키기
+    localStorage.setItem(
+      'locations',
+      JSON.stringify(this.#localStoragelocations)
+    );
+
+    buttonEl.value = this.#localStoragelocations[locationIndex].visited;
+
+    buttonEl.innerHTML = this.#localStoragelocations[locationIndex].visited
+      ? '🙆 visited'
+      : '❌ yet';
   }
 }
 
