@@ -9,14 +9,18 @@ class App {
   #popups;
   #markers;
   #place;
+  #localStoragelocations;
 
   constructor() {
-    this.#place = locations[9]; // default location
+    this._getLocalStorage();
+
+    this.#place = this.#localStoragelocations[9]; // default location
     this.#popups = [];
     this.#markers = [];
 
     this._loadMap();
-    locations.map(location => {
+
+    this.#localStoragelocations.map(location => {
       this._createPopups(location);
       this._createMarkers(location);
       this._renderPopups();
@@ -25,6 +29,17 @@ class App {
 
     placelists.addEventListener('click', this._moveToMarker.bind(this));
     placelists.addEventListener('click', this._toggleVisitedButton.bind(this));
+  }
+
+  _getLocalStorage() {
+    let data = JSON.parse(localStorage.getItem('locations'));
+
+    if (!data) {
+      localStorage.setItem('locations', JSON.stringify(locations));
+      data = JSON.parse(localStorage.getItem('locations'));
+    }
+
+    this.#localStoragelocations = data;
   }
 
   _loadMap() {
@@ -101,7 +116,7 @@ class App {
 
     if (!locationEl) return;
 
-    const location = locations.find(
+    const location = this.#localStoragelocations.find(
       l => l.id === locationEl.parentNode.dataset.id
     );
 
@@ -125,7 +140,7 @@ class App {
 
     if (!buttonEl) return;
 
-    const location = locations.find(
+    const location = this.#localStoragelocations.find(
       l => l.id === buttonEl.parentNode.dataset.id
     );
 
