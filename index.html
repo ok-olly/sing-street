@@ -35,34 +35,25 @@
     모두 visited로 바뀌면 축하 알림 띄우기
     사용자 위치기반으로 visited 버튼 누를 수 있게 하고 싶은데..
     한영 전환 -->
-    <div class="sidebar">
-      <img
-        src="./img/android-icon-192x192.png"
-        alt="logo"
-        style="width: 20px; display: inline-block"
-      />
-      <h1>Sing Street Filming Locations</h1>
-      <ul class="placelists">
-        <!-- <li class="placelist">
-          <div class="placelist__box" data-id="${location.id}">
-            <img
-              class="box__image"
-              src="https://picsum.photos/100"
-              alt="movie photo"
-            />
-            <h2 class="box__name">${location.name}</h2>
-            <span class="box__address">${location.address}</span>
-            <p class="box__description">${location.description}</p>
-          </div>
-          <button class="placelist__button">
-            ${ location.visited ? '🙆 visited' : '❌ unvisited yet' }
-          </button>
-        </li> -->
-      </ul>
+    <div class="container">
+      <div class="sidebar">
+        <div class="titlebox">
+          <img
+            class="titlebox__image"
+            src="./img/android-icon-192x192.png"
+            alt="logo"
+          />
+          <h1 class="titlebox__heading">
+            <span>Sing Street</span>
+            <span>Filming Locations</span>
+          </h1>
+        </div>
+        <ul class="placelists"></ul>
 
-      <div class="footer">made by Jeongok Lee</div>
+        <div class="footer">made by Jeongok Lee</div>
+      </div>
+
+      <div id="map"></div>
     </div>
-
-    <div id="map"></div>
   </body>
 </html>

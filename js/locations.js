@@ -1,3 +1,9 @@
+// locations info =>
+// https://www.imdb.com/title/tt3544112/locations/
+// https://almostginger.com/sing-street-filming-locations-dublin/
+// https://filmap.tumblr.com/post/159714810851/sing-street-john-carney-2016-fuscos-cafe-27
+// https://vaguevisages.com/2016/02/26/glasgow-film-festival-2016-john-carneys-sing-street/
+
 export const locations = [
   {
     id: 'stCatherinesPark',
@@ -6,7 +12,7 @@ export const locations = [
     name: "St. Catherine's Park",
     description: 'Park exteriors',
     address: "St. Catherine's Park, Hanbury Lane, Dublin, Ireland",
-    visited: true,
+    visited: false,
     image:
       'https://almostginger.com/wp-content/uploads/2016/11/Sing-Street-4-new.jpg',
   },
@@ -20,7 +26,7 @@ export const locations = [
       'Site of "A Beautiful Sea" video and where Conor returns to look across the sea to Britain after Raphina has left.',
     address:
       'Dún Laoghaire Harbour East, Dún Laoghaire-Rathdown, County Dublin, Ireland',
-    visited: true,
+    visited: false,
     image:
       'https://almostginger.com/wp-content/uploads/2016/11/Sing-Street-3.jpg',
   },
@@ -57,6 +63,8 @@ export const locations = [
     description: 'First sight of Raphina from the entrance here',
     address: 'Sancta Maria Primary School, Synge Street, Dublin, Ireland',
     visited: false,
+    image:
+      'https://q9c3t4p4.rocketcdn.me/wp-content/uploads/2016/02/sing-street-one.jpg?w=750',
   },
 
   {
@@ -68,6 +76,8 @@ export const locations = [
     address:
       "Fusco's Cafe, 27 Meath Street, Merchants Quay, Dublin, Ireland D08 X960",
     visited: false,
+    image:
+      'https://64.media.tumblr.com/93b7b0463c255d743b6f7a3360d3d7e4/tumblr_ogmx41I8AQ1tus777o3_1280.png',
   },
 
   {
