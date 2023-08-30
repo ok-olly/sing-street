@@ -27,7 +27,7 @@ class App {
       this._createMarkers(location);
 
       // 팝업과 마커를 엮어서 렌더
-      this._renderPopups();
+      this._renderMarkersPopups();
 
       // location을 화면에 리스트로 렌더
       this._renderList(location);
@@ -74,7 +74,9 @@ class App {
     // this.#popups 배열에 장소별 id와 팝업이 담긴 오브젝트를 하나씩 추가
     this.#popups.push({
       id: location.id,
-      popup: L.popup().setContent(location.name),
+      popup: L.popup({
+        className: `${location.visited ? 'visited' : 'unvisited'}`,
+      }).setContent(location.name),
     });
   }
 
@@ -88,12 +90,28 @@ class App {
     });
   }
 
-  _renderPopups() {
-    // 마커마다 팝업을 붙여서 렌더
+  _renderMarkersPopups() {
+    // 모든 마커에 팝업을 붙여서 렌더
     this.#markers.map(m => {
       m.marker
         .bindPopup(this.#popups.find(p => p.id === m.id).popup)
         .openPopup();
+    });
+  }
+
+  _renderAMarkerAPopup() {
+    // this.#markers배열에서 this.#place에 해당하는 특정 마커를 찾아 팝업과 함께 렌더
+    this.#markers
+      .find(m => m.id === this.#place.id)
+      .marker.bindPopup(this.#popups.find(p => p.id === this.#place.id).popup)
+      .openPopup();
+
+    // this.#place기준으로 지도 불러오기
+    this.#map.setView([this.#place.latitude, this.#place.longitude], 13, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
     });
   }
 
@@ -108,8 +126,10 @@ class App {
         alt="movie photo"
         />
         <h2 class="placelist__name">${location.name}</h2>
-        <span class="placelist__address hidden">${location.address}</span>
-        <p class="placelist__description hidden">${location.description}</p>
+        <span class="placelist__address hidden">📍 ${location.address}</span>
+        <p class="placelist__description hidden">${
+          location.description && '🎬 ' + location.description
+        }</p>
       </div>
       <button class="placelist__button hidden">${
         location.visited ? '✅ visited' : '❌ unvisited'
@@ -120,10 +140,12 @@ class App {
   }
 
   _toggleListDetail(locationEl) {
+    const placelistImage = locationEl.firstElementChild;
     const placelistDescription = locationEl.lastElementChild;
     const placelistName = placelistDescription.previousElementSibling;
     const placelistButton = locationEl.nextElementSibling;
 
+    placelistImage.classList.toggle('small');
     placelistDescription.classList.toggle('hidden');
     placelistName.classList.toggle('hidden');
     placelistButton.classList.toggle('hidden');
@@ -144,19 +166,7 @@ class App {
       l => l.id === locationEl.parentNode.dataset.id
     );
 
-    // this.#markers배열에서 this.#place에 해당하는 마커를 찾아 팝업과 함께 렌더
-    this.#markers
-      .find(m => m.id === this.#place.id)
-      .marker.bindPopup(this.#popups.find(p => p.id === this.#place.id).popup)
-      .openPopup();
-
-    // this.#place기준으로 지도 불러오기
-    this.#map.setView([this.#place.latitude, this.#place.longitude], 13, {
-      animate: true,
-      pan: {
-        duration: 1,
-      },
-    });
+    this._renderAMarkerAPopup();
   }
 
   _toggleVisitedButton(e) {
@@ -189,10 +199,18 @@ class App {
     // 버튼 value에 방문여부 담기
     // buttonEl.value = this.#localStoragelocations[locationIndex].visited;
 
+    // 선택된 장소 정보를 가져와서 임시 저장소인 this.#place에 담는다.
+    this.#place = this.#localStoragelocations[locationIndex];
+
     // 버튼 text 변경
-    buttonEl.innerHTML = this.#localStoragelocations[locationIndex].visited
-      ? '✅ visited'
-      : '❌ unvisited';
+    buttonEl.innerHTML = this.#place.visited ? '✅ visited' : '❌ unvisited';
+
+    // this.#popups배열에서 this.#place에 해당하는 팝업을 찾아 방문여부 클래스를 추가
+    this.#popups.find(p => p.id === this.#place.id).popup = L.popup({
+      className: `${this.#place.visited ? 'visited' : 'unvisited'}`,
+    }).setContent(this.#place.name);
+
+    this._renderAMarkerAPopup();
   }
 }
 

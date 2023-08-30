@@ -4,6 +4,7 @@
   --color-primary: rgba(86, 214, 194);
   --color-secondary: rgba(249, 186, 53);
   --color-dark: rgba(0, 0, 0);
+  --color-white: rgb(255, 255, 255);
 }
 
 // RESPONSIVE BREAKPOINTS
@@ -28,17 +29,17 @@ html {
   /* 1rem = 10px, 10px/16px = 62.5% */
   font-size: 62.5%;
 
-  // 화면 가로 1200px 아래면 font-size가 50%로 바뀐다.
-  // @media only screen and (max-width: $bp-large) {
-  //   font-size: 50%;
-  // }
+  // 화면 가로 1000px 아래면 font-size가 50%로 바뀐다.
+  @media only screen and (max-width: $bp-large) {
+    font-size: 50%;
+  }
 }
 
 body {
   font-family: 'Gaegu', cursive;
   font-weight: 400;
-  font-size: 1.5rem;
-  line-height: 1.6;
+  font-size: 1.8rem;
+  line-height: 1.2;
   color: var(--color-dark);
 
   height: 100vh;
@@ -70,7 +71,7 @@ body {
 }
 
 .sidebar {
-  flex: 0 1 30%;
+  flex-basis: 35rem;
 
   display: flex;
   flex-flow: column nowrap;
@@ -85,7 +86,6 @@ body {
   align-items: center;
 
   margin-bottom: 3rem;
-  // margin-right: 3rem;
 
   &__image {
     width: 7rem;
@@ -98,7 +98,7 @@ body {
 
     font-size: 3rem;
     line-height: 1.3;
-    color: white;
+    color: var(--color-white);
     text-shadow: 1px 1px 1px var(--color-secondary),
       1px 2px 1px var(--color-secondary), 1px 3px 1px var(--color-primary),
       1px 4px 1px var(--color-primary), 1px 5px 1px var(--color-secondary),
@@ -112,10 +112,7 @@ body {
   flex: 0 1 auto;
 
   list-style: none;
-  // height: 30rem;
   overflow-y: scroll;
-
-  // background-color: rgb(255, 255, 255, 0.3);
 
   display: flex;
   flex-direction: column;
@@ -125,93 +122,68 @@ body {
   width: 0;
 }
 
-// 기본, 다 숨겨지고 사진이랑 이름만 뜨는 모습
-// .placelist {
-//   // display: flex;
-//   // align-items: center;
-//   cursor: pointer;
-
-//   &:not(:last-child) {
-//     margin-bottom: 1.7rem;
-//   }
-
-//   &__box {
-//     // flex: 1 1 auto;
-
-//     display: flex;
-//     justify-content: space-between;
-//   }
-
-//   &__image {
-//     width: 5rem;
-//     height: 5rem;
-//     object-fit: cover;
-//     border-radius: 100%;
-//     border: 2px solid white;
-//   }
-
-//   &__name {
-//   }
-
-//   &__address {
-//     display: none;
-//   }
-
-//   &__description {
-//     display: none;
-//   }
-
-//   &__button {
-//     // flex: 0 0 23%;
-//     display: none;
-//   }
-// }
-
-// 상세한 정보 뜨는거(리스트 펴졌을 때)
 .placelist {
-  // display: flex;
-  // align-items: center;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
 
+  cursor: pointer;
   padding: 1.7rem;
 
   &:hover {
     background-color: rgb(255, 255, 255, 0.3);
+
+    & > .placelist__box > .placelist__name {
+      color: var(--color-secondary);
+      text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
+    }
   }
 
-  // &:not(:last-child) {
-  //   margin-bottom: 1.7rem;
-  // }
-
   &__box {
-    // flex: 1 1 auto;
-
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
+
+    position: relative;
   }
 
   &__image {
-    // flex: 0 1 10%;
-    height: 10rem;
+    height: 13rem;
     object-fit: cover;
-    // object-fit: contain;
-    // border-radius: 100%;
-    // border: 2px solid white;
+    margin-bottom: 1.5rem;
   }
 
   &__name {
-    // display: block;
+    align-self: center;
+    font-size: 2.4rem;
+    color: var(--color-white);
+    text-shadow: 1px 0.6rem 0.6rem rgba(0, 0, 0, 0.5);
+    z-index: 10;
   }
 
   &__address {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 
   &__description {
   }
 
   &__button {
-    // flex: 0 0 23%;
+    align-self: stretch;
+    margin-top: 2rem;
+
+    padding: 0.5rem;
+    border: none;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
+      transform: translateY(2px);
+    }
   }
 }
 
@@ -219,13 +191,62 @@ body {
   align-self: center;
 
   margin-top: 2rem;
-}
 
-#map {
-  flex: 1 0 auto;
-  height: 100%;
+  display: flex;
+  align-items: center;
+
+  &__image {
+    height: 1.6rem;
+    width: 1.6rem;
+    fill: currentColor;
+    margin-left: 1rem;
+  }
+
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: var(--color-white);
+    text-shadow: 1px 0.6rem 0.6rem rgba(0, 0, 0, 0.5);
+  }
+
+  &:hover,
+  &:active {
+    color: var(--color-primary);
+    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
+  }
 }
 
 .hidden {
   display: none;
 }
+
+.small {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  filter: blur(1px);
+}
+
+////////////////////////////////////////////////////////////////
+// leaflet
+#map {
+  flex: 1;
+  height: 100%;
+}
+
+.leaflet-popup .leaflet-popup-content {
+  font-size: 1.3rem;
+}
+
+.visited .leaflet-popup-content-wrapper {
+  border-left: 5px solid darkolivegreen;
+}
+
+.unvisited .leaflet-popup-content-wrapper {
+  border-left: 5px solid rgb(180, 57, 57);
+}
+////////////////////////////////////////////////////////////////
