@@ -274,7 +274,7 @@ body {
 }
 @media only screen and (max-width: 50em) {
   #map {
-    margin-top: 1rem;
+    margin-top: 3rem;
     margin-bottom: 4.5rem;
   }
 }
